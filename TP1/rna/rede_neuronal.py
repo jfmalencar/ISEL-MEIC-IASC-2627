@@ -1,7 +1,6 @@
-
-from .camada_de_entrada import CamadaDeEntrada
-from .camada_densa import CamadaDensa
-from .funcao_ativacao import FuncaoAtivacao
+from camada_de_entrada import CamadaDeEntrada
+from camada_densa import CamadaDensa
+from funcao_ativacao import FuncaoAtivacao
 
 
 class RedeNeuronal:
@@ -85,7 +84,7 @@ class RedeNeuronal:
         """
         return [y_N[i] - y[i] for i in range(len(y))]
 
-    def retropropagar(self, delta_N: list, taxa_aprendizagem: float):
+    def retropropagar(self, delta_N: list, taxa_aprendizagem: float, momento: float):
         """
         Retropropaga o erro de saída delta_N através da rede neuronal, adaptando os pesos e o pendor de cada camada com base na taxa de aprendizagem.
             - delta_N: vetor de erro de saída da rede neuronal
@@ -113,12 +112,12 @@ class RedeNeuronal:
             ]
 
             # Adaptar os pesos e o viés da camada atual com base no vetor de erro da camada atual e na saída da camada anterior
-            camada_atual.adaptar(delta_n, camada_anterior.y, taxa_aprendizagem)
+            camada_atual.adaptar(delta_n, camada_anterior.y, taxa_aprendizagem, momento)
 
             # Atualizar o vetor de erro da camada anterior para a próxima iteração
             delta_n = delta_anterior
 
-    def adaptar(self, x: list, y: list, taxa_aprendizagem: float):
+    def adaptar(self, x: list, y: list, taxa_aprendizagem: float, momento: float):
         """
         Adapta os pesos e o pendor da rede neuronal com base na entrada x, na saída desejada y e na taxa de aprendizagem.
             - x: vetor de treino de entrada da rede neuronal
@@ -135,7 +134,7 @@ class RedeNeuronal:
         delta_N = self.delta_saida(y_N, y)
 
         # Retropropagar o erro de saída delta_N através da rede neuronal, adaptando os pesos e o pendor de cada camada com base na taxa de aprendizagem
-        self.retropropagar(delta_N, taxa_aprendizagem)
+        self.retropropagar(delta_N, taxa_aprendizagem, momento)
 
         # Comprimento do vetor de erro de saída da rede neuronal
         # Prev: len(self.camadas) <= ERRO TODO
@@ -147,7 +146,7 @@ class RedeNeuronal:
         # Retornar o erro quadrático médio da rede neuronal
         return mean_squared_error
 
-    def treinar(self, X: list, Y: list, n_epocas: int, erro_max: float, taxa_aprendizagem: float):
+    def treinar(self, X: list, Y: list, n_epocas: int, erro_max: float, taxa_aprendizagem: float, momento: float):
         """
         Treina a rede neuronal com base em um conjunto de dados de treino.
             - X: conjunto de entradas de treino da rede neuronal
@@ -164,7 +163,7 @@ class RedeNeuronal:
 
             # Para cada amostra de treino, adaptar os pesos e o pendor da rede neuronal e acumular o erro total
             for x, y in zip(X, Y):
-                erro_entrada_x = self.adaptar(x, y, taxa_aprendizagem)
+                erro_entrada_x = self.adaptar(x, y, taxa_aprendizagem, momento)
                 erro_epoca = max(erro_epoca, erro_entrada_x)
             if epoca == 0:
                 print(f"[{erro_epoca:.6f}, ", end="")

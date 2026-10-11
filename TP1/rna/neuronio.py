@@ -1,6 +1,5 @@
 import random
-
-from .funcao_ativacao import FuncaoAtivacao
+from funcao_ativacao import FuncaoAtivacao
 
 class Neuronio:
     # Dimensão da entrada do neurónio
@@ -8,7 +7,7 @@ class Neuronio:
     # Função de ativação do neurónio
     funcao_ativacao: FuncaoAtivacao
     # Pesos das entradas do neurónio
-    pesos: list
+    pesos: list[float]
     # Pendor (bias) do neurónio
     pendor: float
     # Soma ponderada das entradas e pesos com o pendor
@@ -17,6 +16,10 @@ class Neuronio:
     y: float
     # Derivada da saída do neurónio
     derivada_y: float
+    # Vetor de variação dos pesos do neurónio
+    delta_pesos: list[float]
+    # Variação do pendor do neurónio
+    delta_pendor: float
     
     def __init__(self, d: int, phi: FuncaoAtivacao):
         """
@@ -52,15 +55,23 @@ class Neuronio:
         self.pendor = random.uniform(-1, 1)
         
         # Soma ponderada das entradas e pesos com o pendor
-        self.h = 0
+        self.h = 0.0
         
         # Saída do neurónio após a aplicação da função de ativação
-        self.y = 0
+        self.y = 0.0
 
         # Parte 2 --------------------------------
         # Derivada da saída
-        self.derivada_y = 0
+        self.derivada_y = 0.0
         # ----------------------------------------
+
+        # Parte 3 --------------------------------
+        # Vetor de variação dos pesos
+        self.delta_pesos = [0.0 for _ in range(d)]
+        # Variação do pendor
+        self.delta_pendor = 0.0
+        # ----------------------------------------
+
         
 
     def propagar(self, x: list):
@@ -93,26 +104,39 @@ class Neuronio:
         return self.y
 
     # Parte 2 --------------------------------
-    def adaptar(self, propag_erro_saida: float, saida_camada_anterior: list, taxa_aprendizagem: float):
+    def adaptar(self, propag_erro_saida: float, saida_camada_anterior: list, taxa_aprendizagem: float, momento: float):
         """
         Adapta os pesos e o pendor do neurónio com base no erro de saída, na saída da camada anterior e na taxa de aprendizagem.
             - propag_erro_saida: componente de propagação do erro de saída do neurónio
             - saida_camada_anterior: vetor de saída da camada anterior (n-1)
             - taxa_aprendizagem: taxa de aprendizagem
+            - momento: fator de momento para a atualização dos pesos e pendor
         """
 
         # A dimensão da saída da camada anterior deve ser igual à dimensão do neurónio
         if len(saida_camada_anterior) != self.d:
             raise ValueError(f"A dimensão do vetor de saída da camada anterior deve ser {self.d}.")
 
+        # Calcular o momento de cada peso
+        momento_pesos = [momento * self.delta_pesos[i] for i in range(self.d)]
+
         # Calcular o fator escalar: (-taxa_aprendizagem) * derivada_y * propag_erro_saida
         fator_escalar = (-taxa_aprendizagem) * self.derivada_y * propag_erro_saida
 
         # Calcular a variação dos pesos com base no fator escalar e na saída da camada anterior
-        var_pesos = [fator_escalar * saida_camada_anterior[i] for i in range(self.d)]
+        var_pesos = [fator_escalar * saida_camada_anterior[i] + momento_pesos[i] for i in range(self.d)]
+
+        # Atualizar a variação dos pesos do neurónio
+        self.delta_pesos = var_pesos
 
         # Atualizar os pesos do neurónio com base no fator escalar e na saída da camada anterior
         self.pesos = [self.pesos[i] + var_pesos[i] for i in range(self.d)]
 
+        # Calcular o momento do pendor
+        momento_pendor = momento * self.delta_pendor
+
+        # Atualizar a variação do pendor do neurónio
+        self.delta_pendor = fator_escalar + momento_pendor
+        
         # Atualizar o pendor do neurónio com base no fator escalar e no erro de saída
-        self.pendor = self.pendor + fator_escalar
+        self.pendor = self.pendor + fator_escalar + momento_pendor

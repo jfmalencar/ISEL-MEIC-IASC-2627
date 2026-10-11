@@ -1,4 +1,3 @@
-
 class CamadaDeEntrada:
     # Dimensão de saída da camada de entrada
     d_s: int

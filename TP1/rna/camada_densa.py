@@ -1,5 +1,5 @@
-from .funcao_ativacao import FuncaoAtivacao
-from .neuronio import Neuronio
+from funcao_ativacao import FuncaoAtivacao
+from neuronio import Neuronio
 
 class CamadaDensa:
     # Dimensão de entrada da camada densa
@@ -9,7 +9,7 @@ class CamadaDensa:
     # Função de ativação da camada densa
     funcao_ativacao: FuncaoAtivacao
     # Neurónios da camada densa
-    neuronios: list
+    neuronios: list[Neuronio]
     
     def __init__(self, d_e: int, d_s: int, phi: FuncaoAtivacao):
         """
@@ -48,7 +48,7 @@ class CamadaDensa:
         # Retornar a saída de todos os neurónios da camada densa
         return [neuronio.y for neuronio in self.neuronios]
 
-    def propagar(self, x: list):
+    def propagar(self, x: list[float]):
         """
         Propaga a entrada x através da camada densa, calculando a saída de cada neurónio.
             - x: vetor de entrada da camada densa
@@ -67,12 +67,13 @@ class CamadaDensa:
         return y
 
     # Parte 2 --------------------------------
-    def adaptar (self, prop_err_saida: list, saida_camada_anterior: list, taxa_aprendizagem: float):
+    def adaptar (self, prop_err_saida: list[float], saida_camada_anterior: list[float], taxa_aprendizagem: float, momento: float):
         """
         Adapta os pesos e o pendor de todos os neurónios da camada densa com base no vetor de erro de saída, na saída da camada anterior e na taxa de aprendizagem.
             - prop_err_saida: vetor de erro de saída da camada densa
             - saida_camada_anterior: vetor de saída da camada anterior
             - taxa_aprendizagem: taxa de aprendizagem a ser utilizada na adaptação dos pesos e do pendor
+            - momento: fator de momento para a atualização dos pesos e do pendor
         """
 
         # A dimensão do vetor de erro de saída deve ser igual à dimensão de saída da camada densa
@@ -81,4 +82,4 @@ class CamadaDensa:
 
         # Adaptar os pesos e o pendor de todos os neurónios da camada densa
         for i, neuronio in enumerate(self.neuronios):
-            neuronio.adaptar(prop_err_saida[i], saida_camada_anterior, taxa_aprendizagem)
+            neuronio.adaptar(prop_err_saida[i], saida_camada_anterior, taxa_aprendizagem, momento)
