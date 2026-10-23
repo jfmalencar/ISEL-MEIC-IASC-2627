@@ -1,5 +1,5 @@
-from funcao_ativacao import FuncaoAtivacao
-from neuronio import Neuronio
+from TP.rna.funcao_ativacao import FuncaoAtivacao
+from TP.rna.neuronio import Neuronio
 
 class CamadaDensa:
     # Dimensão de entrada da camada densa

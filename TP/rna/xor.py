@@ -1,7 +1,7 @@
 
 # Dados de treino e de teste
-from funcao_ativacao import FuncaoAtivacaoEnum
-from rede_neuronal import RedeNeuronal
+from TP.rna.funcao_ativacao import FuncaoAtivacaoEnum
+from TP.rna.rede_neuronal import RedeNeuronal
 
 
 def normalizar_dados_input(x: list[list[float]], nome_funcao_ativacao: str) -> list[list[float]]:

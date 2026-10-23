@@ -1,6 +1,6 @@
-from camada_de_entrada import CamadaDeEntrada
-from camada_densa import CamadaDensa
-from funcao_ativacao import FuncaoAtivacao
+from TP.rna.camada_de_entrada import CamadaDeEntrada
+from TP.rna.camada_densa import CamadaDensa
+from TP.rna.funcao_ativacao import FuncaoAtivacao
 
 
 class RedeNeuronal:

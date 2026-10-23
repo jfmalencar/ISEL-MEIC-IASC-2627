@@ -1,5 +1,5 @@
 import random
-from funcao_ativacao import FuncaoAtivacao
+from TP.rna.funcao_ativacao import FuncaoAtivacao
 
 class Neuronio:
     # Dimensão da entrada do neurónio

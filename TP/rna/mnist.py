@@ -13,8 +13,8 @@ import random
 import struct
 from pathlib import Path
 
-from funcao_ativacao import FuncaoAtivacaoEnum
-from rede_neuronal import RedeNeuronal
+from TP.rna.funcao_ativacao import FuncaoAtivacaoEnum
+from TP.rna.rede_neuronal import RedeNeuronal
 
 
 def _localizar_ficheiro(pasta: Path, nomes: tuple[str, ...]) -> Path:
