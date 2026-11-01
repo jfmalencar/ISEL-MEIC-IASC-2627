@@ -1,30 +1,30 @@
 import random
-from memoria_aprendizagem import MemoriaDeAprendizagem
+from agente import Agente
+from estado import Estado
 
 class SeleccaoAccaoEGreedy:
-    def __init__(self, memoria: MemoriaDeAprendizagem, epsilon: float = 0.1):
-        self.memoria = memoria
+    def __init__(self, agente: Agente, epsilon: float = 0.1):
         self.epsilon = epsilon
+        self.accoes_disponiveis = agente.accoes_disponiveis
+        self.memoria = agente.memoria
 
-    def accao_sofrega(self, s: int, accoes: list):
+    def accao_sofrega(self, s: Estado):
         """
         Obter ação sôfrega (greedy): escolhe a ação que maximiza Q(s, a).
         Aplica shuffle nas ações para desempate aleatório entre valores Q iguais.
         """
-        accoes_shuffled = accoes.copy()
-        random.shuffle(accoes_shuffled)
-        return max(accoes_shuffled, key=lambda a: self.memoria.q(s, a))
+        accoes = self.accoes_disponiveis.copy()
+        random.shuffle(accoes)
+        return max(accoes, key=lambda a: self.memoria.q(s, a))
 
-    def accao_exploracao(self, accoes: list):
+    def accao_exploracao(self):
         """Obter ação de exploração: escolha uniforme entre ações disponíveis."""
-        return random.choice(accoes)
+        return random.choice(self.accoes_disponiveis)
 
-    def seleccionar_accao(self, s: int, accoes: list):
-        """Selecciona a ação combinando exploração e aproveitamento."""
-        if not accoes:
-            return None
-
+    def seleccionar_accao(self, s: Estado):
+        """Selecciona a ação combinando exploração e aproveitamento."""               
         if random.random() > self.epsilon:
-            return self.accao_sofrega(s, accoes)  # Aproveitar conhecimento
+            return self.accao_sofrega(s)
         else:
-            return self.accao_exploracao(accoes)   # Explorar
+            return self.accao_exploracao()
+        
