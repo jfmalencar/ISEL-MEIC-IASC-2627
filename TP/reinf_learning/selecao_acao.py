@@ -1,5 +1,4 @@
 import random
-<<<<<<< HEAD
 from estado import Estado
 from memoria_aprendizagem import MemoriaDeAprendizagem
 
@@ -8,16 +7,6 @@ class SeleccaoAccaoEGreedy:
         self.epsilon = epsilon
         self.accoes_disponiveis = accoes_disponiveis
         self.memoria = memoria
-=======
-from agente import Agente
-from estado import Estado
-
-class SeleccaoAccaoEGreedy:
-    def __init__(self, agente: Agente, epsilon: float = 0.1):
-        self.epsilon = epsilon
-        self.accoes_disponiveis = agente.accoes_disponiveis
-        self.memoria = agente.memoria
->>>>>>> 10915526a047b56732e388183391e2ef9c3ba2e2
 
     def accao_sofrega(self, s: Estado):
         """

@@ -26,7 +26,7 @@ class DynaQ(QLearning):
         super().aprender(s, a, r, s_linha, a_linha, final)
 
         # Atualizar o modelo do mundo com a experiência real
-        self.modelo.actualizar(s, a, r, s_linha)
+        self.modelo.actualizar(s, a, s_linha, r)
 
         # Planeamento por simulação interna
         self.simular()
