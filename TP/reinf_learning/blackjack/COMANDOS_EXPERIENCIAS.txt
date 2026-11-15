@@ -1,0 +1,97 @@
+Comandos para executar a demonstração no Windows PowerShell
+=============================================================
+
+Executar primeiro:
+
+cd C:\ISEL\1_Semestre\IASC\Pratica\TP\reinf_learning\blackjack
+
+Os comandos seguintes usam 100000 episódios, 10000 episódios de avaliação e
+10 sementes. Para um teste rápido, substituir estes valores por 1000, 100 e 3.
+
+EXPERIÊNCIA BASE
+----------------
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --saida resultados\baseline\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --saida resultados\baseline\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --saida resultados\baseline\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --saida resultados\baseline\qme
+
+VARIAÇÃO DE ALFA
+----------------
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.001 --saida resultados\alfa\0.001\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.001 --saida resultados\alfa\0.001\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.001 --saida resultados\alfa\0.001\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.001 --saida resultados\alfa\0.001\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.01 --saida resultados\alfa\0.01\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.01 --saida resultados\alfa\0.01\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.01 --saida resultados\alfa\0.01\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.01 --saida resultados\alfa\0.01\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.1 --saida resultados\alfa\0.1\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.1 --saida resultados\alfa\0.1\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.1 --saida resultados\alfa\0.1\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --alfa 0.1 --saida resultados\alfa\0.1\qme
+
+VARIAÇÃO DE GAMA
+-----------------
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.0 --saida resultados\gama\0.0\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.0 --saida resultados\gama\0.0\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.0 --saida resultados\gama\0.0\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.0 --saida resultados\gama\0.0\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.5 --saida resultados\gama\0.5\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.5 --saida resultados\gama\0.5\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.5 --saida resultados\gama\0.5\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 0.5 --saida resultados\gama\0.5\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 1.0 --saida resultados\gama\1.0\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 1.0 --saida resultados\gama\1.0\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 1.0 --saida resultados\gama\1.0\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --gama 1.0 --saida resultados\gama\1.0\qme
+
+VARIAÇÃO DE EPSILON
+--------------------
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.0 --saida resultados\epsilon\0.0\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.0 --saida resultados\epsilon\0.0\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.0 --saida resultados\epsilon\0.0\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.0 --saida resultados\epsilon\0.0\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.1 --saida resultados\epsilon\0.1\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.1 --saida resultados\epsilon\0.1\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.1 --saida resultados\epsilon\0.1\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.1 --saida resultados\epsilon\0.1\qme
+
+"1" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.3 --saida resultados\epsilon\0.3\q_learning
+"2" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.3 --saida resultados\epsilon\0.3\sarsa
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.3 --saida resultados\epsilon\0.3\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --epsilon 0.3 --saida resultados\epsilon\0.3\qme
+
+VARIAÇÃO DE NÚMERO DE SIMULAÇÕES
+---------------------------------
+
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 0 --saida resultados\num_simulacoes\0\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 0 --saida resultados\num_simulacoes\0\qme
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 1 --saida resultados\num_simulacoes\1\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 1 --saida resultados\num_simulacoes\1\qme
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 5 --saida resultados\num_simulacoes\5\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 5 --saida resultados\num_simulacoes\5\qme
+"3" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 20 --saida resultados\num_simulacoes\20\dyna_q
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --num-simulacoes 20 --saida resultados\num_simulacoes\20\qme
+
+VARIAÇÃO DE DIM-MAX (APENAS QME)
+---------------------------------
+
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --dim-max 100 --saida resultados\dim_max\100\qme
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --dim-max 1000 --saida resultados\dim_max\1000\qme
+"4" | python blackjack.py --episodios 100000 --avaliacao 10000 --sementes 10 --dim-max 10000 --saida resultados\dim_max\10000\qme
+
+Os ficheiros gerados em cada pasta são:
+
+episodios.csv
+atualizacoes_q.csv
+execucoes.csv
+configuracoes.json

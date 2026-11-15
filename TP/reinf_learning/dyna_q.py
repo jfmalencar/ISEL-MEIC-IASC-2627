@@ -10,8 +10,8 @@ class DynaQ(QLearning):
     Combina a aprendizagem direta a partir do ambiente real com o planeamento por simulação interna
     a partir do modelo do mundo (ModeloTR).
     """
-    def __init__(self, memoria: MemoriaDeAprendizagem, seleccao_accao: SeleccaoAccaoEGreedy, alfa: float = 0.1, gama: float = 0.9, n_simulacoes: int = 5):
-        super().__init__(memoria, seleccao_accao, alfa, gama)
+    def __init__(self, memoria: MemoriaDeAprendizagem, seleccao_accao: SeleccaoAccaoEGreedy, alfa: float = 0.1, gama: float = 0.9, n_simulacoes: int = 5, observador=None):
+        super().__init__(memoria, seleccao_accao, alfa, gama, observador)
         self.n_simulacoes = n_simulacoes
         self.modelo = ModeloTR()  # Modelo do mundo para simulações internas
 
@@ -40,4 +40,4 @@ class DynaQ(QLearning):
             amostra = self.modelo.amostrar()
             if amostra is not None:
                 s_sim, a_sim, r_sim, s_linha_sim = amostra
-                super().aprender(s_sim, a_sim, r_sim, s_linha_sim)
+                super().aprender(s_sim, a_sim, r_sim, s_linha_sim, simulada=True)

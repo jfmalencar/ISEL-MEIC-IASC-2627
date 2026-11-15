@@ -3,13 +3,14 @@ from memoria_aprendizagem import MemoriaDeAprendizagem
 from selecao_acao import SeleccaoAccaoEGreedy
 
 class SARSA:
-    def __init__(self, memoria: MemoriaDeAprendizagem, seleccao_accao: SeleccaoAccaoEGreedy, alfa: float = 0.1, gama: float = 0.9):
+    def __init__(self, memoria: MemoriaDeAprendizagem, seleccao_accao: SeleccaoAccaoEGreedy, alfa: float = 0.1, gama: float = 0.9, observador=None):
         self.mem_aprend = memoria
         self.sel_accao = seleccao_accao
         self.alpha = alfa
         self.gamma = gama
+        self.observador = observador
 
-    def aprender(self, s: Estado, a, r: float, s_linha: Estado, a_linha, final: bool = False):
+    def aprender(self, s: Estado, a, r: float, s_linha: Estado, a_linha, final: bool = False, simulada: bool = False):
         """
         Atualiza a estimativa Q(s, a) usando a regra de atualização SARSA:
         Q(s, a) <- Q(s, a) + alpha * (r + gamma * Q(s', a') - Q(s, a))
@@ -23,3 +24,5 @@ class SARSA:
         q_novo = q_atual + self.alpha * (J - q_atual)
         
         self.mem_aprend.actualizar(s, a, q_novo)
+        if self.observador is not None:
+            self.observador(q_novo - q_atual, J - q_atual, simulada)

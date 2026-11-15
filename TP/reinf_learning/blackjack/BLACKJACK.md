@@ -1,23 +1,32 @@
 # Aplicação de teste: Blackjack
 
-[`blackjack.py`](./blackjack.py) executa um agente Q-learning num ambiente de Blackjack
-inspirado no Exemplo 5.1 de Sutton e Barto.
+[`blackjack.py`](./blackjack.py) é o ponto de entrada da aplicação de teste.
+Antes do treino, apresenta as opções Q-Learning, SARSA, Dyna-Q e QME. O
+resultado inclui a recompensa média, as estatísticas dos episódios e a
+política aprendida.
 
-[`blackjack_sarsa.py`](./blackjack_sarsa.py) fornece uma aplicação
-alternativa que usa o algoritmo SARSA com o mesmo ambiente de baralho físico.
+Cada algoritmo tem a sua implementação de treino em
+[`algoritmos/`](./algoritmos/):
+
+- [`q_learning/treino.py`](./algoritmos/q_learning/treino.py): Q-Learning;
+- [`sarsa/treino.py`](./algoritmos/sarsa/treino.py): SARSA;
+- [`dyna_q/treino.py`](./algoritmos/dyna_q/treino.py): Dyna-Q;
+- [`qme/treino.py`](./algoritmos/qme/treino.py): Q-Learning com memória de
+  experiências.
+
+As quatro implementações herdam de `TreinoBlackjack`, a classe abstrata que
+define o ciclo comum de treino.
 
 ## Regras do ambiente
 
-O jogo usa um baralho infinito, isto é, cada carta é sorteada com reposição.
+O treino usa exclusivamente
+[`ambiente/blackjack_ambiente_52.py`](./ambiente/blackjack_ambiente_52.py),
+com um baralho físico de 52 cartas e sem reposição. O baralho é recriado e
+baralhado no início de cada episódio; cada carta retirada é removida e não
+pode voltar a ser sorteada nesse episódio.
+
 Cartas de figura valem `10`, cartas numéricas mantêm o seu valor e o ás vale
 `1` ou `11`.
-
-Existe também uma variante em
-[`blackjack_ambiente_52.py`](./blackjack_ambiente_52.py), com um baralho físico
-de 52 cartas e sem reposição. Essa variante expõe
-`AmbienteBlackjack52`, mantendo a mesma API do ambiente original. O baralho é
-recriado e baralhado no início de cada episódio; cada carta retirada é
-removida e não pode voltar a ser sorteada nesse episódio.
 
 O ás é considerado utilizável como `11` sempre que isso não fizer a soma
 ultrapassar `21`. Caso contrário, é contado como `1`.
@@ -82,24 +91,29 @@ Um Blackjack natural corresponde a uma mão inicial de duas cartas com soma
 O ponto de entrada é:
 
 ```powershell
-python blackjack.py
+python blackjack.py --episodios 100000
 ```
 
-Para executar a versão SARSA:
+As métricas podem ser configuradas e exportadas para uma pasta:
 
 ```powershell
-python blackjack_sarsa.py
+python blackjack.py --episodios 100000 --avaliacao 10000 `
+    --sementes 10 --saida resultados
 ```
+
+O treino usa `epsilon` para exploração. A avaliação é executada depois do
+treino com `epsilon = 0`, sem alterar a memória Q.
 
 O programa:
 
 1. fixa a semente aleatória em `42`;
-2. cria o ambiente;
-3. cria um agente com as ações `[0, 1]`;
-4. cria um objeto `QLearning`;
-5. executa `100000` episódios;
-6. imprime a recompensa média por episódio;
-7. imprime a política sôfrega aprendida para estados sem ás utilizável.
+2. pergunta qual dos quatro algoritmos deve ser usado;
+3. cria o ambiente e um agente com as ações `[0, 1]`;
+4. executa o número de episódios indicado;
+5. imprime a recompensa média por episódio;
+6. imprime as estatísticas e a política sôfrega aprendida.
+
+O número de episódios é opcional e tem o valor predefinido `100000`.
 
 Os parâmetros usados no treino são:
 
@@ -132,25 +146,51 @@ Esta tabela mostra a decisão atualmente preferida pelo agente, não uma
 garantia de uma política ótima. A qualidade depende do número de episódios,
 da taxa de aprendizagem, de `epsilon` e da aleatoriedade das cartas.
 
+Para a descrição completa dos ficheiros exportados e da metodologia de análise,
+consultar [`METRICAS.md`](./METRICAS.md).
+
+## Métricas exportadas
+
+Cada execução produz, na pasta indicada por `--saida`:
+
+| Ficheiro | Conteúdo |
+|---|---|
+| `episodios.csv` | Recompensa, resultado, ações, estados, duração e métricas Q por episódio |
+| `atualizacoes_q.csv` | Variação Q, erro temporal e indicação de atualização simulada |
+| `execucoes.csv` | Parâmetros, recompensas, estatísticas e tempos agregados por execução |
+| `configuracoes.json` | Configuração completa de cada execução |
+
+Os episódios têm uma coluna `fase` com os valores `treino` ou `avaliacao`.
+As métricas específicas incluem o tamanho do modelo do Dyna-Q, a ocupação da
+memória de experiências do QME, o número de simulações e o número de
+atualizações Q reais e simuladas. Os CSV podem ser carregados diretamente com
+`pandas`.
+
 ## Relação com a implementação
 
 Os principais ficheiros são:
 
 | Ficheiro | Responsabilidade |
 |---|---|
-| `blackjack_ambiente.py` | Estado, baralho, regras, transições e recompensas |
-| `blackjack.py` | Ciclo de treino e apresentação da política |
-| `blackjack_sarsa.py` | Ciclo de treino SARSA e apresentação da política |
+| `blackjack.py` | Seleção do algoritmo, execução e apresentação dos resultados |
+| `ambiente/blackjack_ambiente_52.py` | Estado, baralho físico, regras, transições e recompensas |
+| `algoritmos/_comum.py` | Classe abstrata e apresentação dos resultados |
+| `algoritmos/q_learning/treino.py` | Treino Q-Learning |
+| `algoritmos/sarsa/treino.py` | Treino SARSA |
+| `algoritmos/dyna_q/treino.py` | Treino Dyna-Q |
+| `algoritmos/qme/treino.py` | Treino QME |
 | `agente.py` | Associação entre memória e seletor de ações |
 | `selecao_acao.py` | Política ε-greedy |
 | `memoria_aprendizagem.py` | Tabela Q |
 | `q_learning.py` | Atualização Q-learning |
-| `blackjack_ambiente_52.py` | Variante com baralho físico de 52 cartas |
+| `sarsa.py` | Atualização SARSA |
+| `dyna_q.py` | Atualização Dyna-Q |
+| `qme.py` | Atualização QME e memória de experiências |
 
 Para usar a variante sem reposição:
 
 ```python
-from blackjack_ambiente_52 import AmbienteBlackjack52
+from ambiente.blackjack_ambiente_52 import AmbienteBlackjack52
 
 ambiente = AmbienteBlackjack52()
 estado = ambiente.reiniciar()
